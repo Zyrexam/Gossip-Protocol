@@ -1,0 +1,2 @@
+p2p network and types -- https://systemdesignschool.io/blog/peer-to-peer-architecture
+what is Gossip protocal? --     https://highscalability.com/gossip-protocol-explained/
