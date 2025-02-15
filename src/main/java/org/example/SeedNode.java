@@ -6,11 +6,24 @@ import java.util.*;
 
 public class SeedNode {
     private static final int SEED_PORT = 5000;
-    private static final String CONFIG_FILE = "config.txt";  // Updated to config.txt
+    private static final String CONFIG_FILE = "config.txt";
+    private static final String LOG_FILE = "seed_log.txt"; // Log file for SeedNode
     private static Set<PeerNode.PeerInfo> connectedPeers = new HashSet<>();
     private static Map<String, PeerNode.PeerInfo> peerList = new HashMap<>();
 
-    // Load existing peers from config.txt
+    private static void logMessage(String message) {
+        try (FileWriter fw = new FileWriter(LOG_FILE, true); // Append mode
+             BufferedWriter bw = new BufferedWriter(fw);
+             PrintWriter out = new PrintWriter(bw)) {
+            out.println(message);
+            System.out.println(message); // Also print to console
+        } catch (IOException e) {
+            System.err.println("Error writing to log file: " + e.getMessage());
+        }
+    }
+
+
+    // Load existing peers from config.txt (integrated from NetworkConfig)
     private static void loadPeersFromFile() throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(CONFIG_FILE))) {
             String line;
@@ -25,7 +38,7 @@ public class SeedNode {
         }
     }
 
-    // Save updated peer list to config.txt
+    // Save updated peer list to config.txt (integrated from NetworkConfig)
     private static void savePeersToFile() throws IOException {
         try (PrintWriter writer = new PrintWriter(new FileWriter(CONFIG_FILE))) {
             for (PeerNode.PeerInfo peer : peerList.values()) {
@@ -51,7 +64,10 @@ public class SeedNode {
         try (BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
             String message = in.readLine();
-            if (message != null && message.startsWith("register:")) {
+            logMessage("Received message: " + message);  // Add this line
+            if (message == null) return;
+
+            if (message.startsWith("register:")) {
                 String[] parts = message.split(":");
                 if (parts.length == 3) {
                     String peerIp = parts[1];
@@ -61,10 +77,28 @@ public class SeedNode {
                     connectedPeers.add(peerInfo);
                     out.println("Registered successfully: " + peerIp + ":" + peerPort);
                     savePeersToFile();
+                    logMessage("Registered peer: " + peerIp + ":" + peerPort);  // Add this line
+                }
+            } else if (message.equals("get_peers")) {
+                // Send list of peers to requesting node
+                String peerListStr = String.join(",", getPeers());
+                out.println(peerListStr);
+                logMessage("Sent peer list: " + peerListStr);  // Add this line
+            } else if (message.startsWith("Dead Node:")) {
+                // Handle dead node notification
+                String[] parts = message.split(":");
+                if (parts.length >= 3) {
+                    String deadIp = parts[1];
+                    int deadPort = Integer.parseInt(parts[2]);
+                    peerList.remove(deadIp);
+                    connectedPeers.removeIf(p -> p.ip.equals(deadIp) && p.port == deadPort);
+                    savePeersToFile();
+                    System.out.println("Removed dead node: " + deadIp + ":" + deadPort);
+                    logMessage("Removed dead node: " + deadIp + ":" + deadPort);  // Add this line
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error handling peer registration: " + e.getMessage());
+            System.out.println("Error handling peer message: " + e.getMessage());
         }
     }
 
