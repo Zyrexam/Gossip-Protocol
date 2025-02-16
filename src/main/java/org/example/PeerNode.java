@@ -88,10 +88,43 @@ public class PeerNode {
         }
     }
 
+    private static List<PeerInfo> loadSeeds() throws IOException {
+        List<PeerInfo> seeds = new ArrayList<>();
+        File configFile = new File("config.txt");
+
+        if (!configFile.exists()) {
+            throw new FileNotFoundException("config.txt not found in the main directory!");
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(configFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                line = line.trim();
+                if (line.isEmpty()) continue;
+                String[] parts = line.split(":");
+                if (parts.length == 2) {
+                    String ip = parts[0].trim();
+                    String portStr = parts[1].trim();
+                    try {
+                        int port = Integer.parseInt(portStr);
+                        seeds.add(new PeerInfo(ip, port));
+                        logMessage("Loaded seed: " + ip + ":" + port);
+                    } catch (NumberFormatException e) {
+                        logMessage("Error parsing port number: " + portStr);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Failed to load seeds from config.txt: " + e.getMessage());
+            throw e;
+        }
+
+        return seeds;
+    }
 
 
 
-
+/*
     private static List<PeerInfo> loadSeeds() throws IOException {
         List<PeerInfo> seeds = new ArrayList<>();
         try (InputStream inputStream = PeerNode.class.getClassLoader().getResourceAsStream(CONFIG_FILE);
@@ -124,7 +157,7 @@ public class PeerNode {
         }
         return seeds;
     }
-
+*/
     private static void logMessage(String message) {
         try (FileWriter fw = new FileWriter(LOG_FILE, true); // Append mode
              BufferedWriter bw = new BufferedWriter(fw);
@@ -342,6 +375,7 @@ public class PeerNode {
             System.out.println("Failed to send message to " + ip);
         }
     }
+
 
     private static void receiveMessages() {
         try (ServerSocket serverSocket = new ServerSocket(peerPort)) {
