@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
 
+
 public class PeerNode {
 
 
@@ -17,9 +18,9 @@ public class PeerNode {
     private static final int MESSAGE_INTERVAL = 5000; // 5 seconds
     private static final int PING_INTERVAL = 13000; // 13 seconds
     private static final int MAX_MISSED_PINGS = 3;
-    private static final int HEARTBEAT_INTERVAL = 10000; // 10 seconds
-
-
+    private static final int MAX_HEARTBEAT_RETRIES = 3;
+    private static final long HEARTBEAT_INTERVAL = 5000; // 5 seconds
+    private static Map<String, Integer> seedFailures = new HashMap<>();
     private static String peerIp;
     private static int peerPort;
     private static final Map<String, PeerInfo> connectedPeers = new HashMap<>();
@@ -57,23 +58,38 @@ public class PeerNode {
         }
     }
 
+
+
     private static void sendHeartbeatToSeeds() {
         while (true) {
             try {
                 Thread.sleep(HEARTBEAT_INTERVAL);
                 List<PeerInfo> seeds = loadSeeds();
                 for (PeerInfo seed : seeds) {
+                    String seedKey = seed.ip + ":" + seed.port;
+
+                    // Skip seed if it has exceeded max failures
+                    if (seedFailures.getOrDefault(seedKey, 0) >= MAX_HEARTBEAT_RETRIES) {
+                        System.out.println("Skipping seed " + seedKey + " due to repeated failures.");
+                        continue;
+                    }
+
                     JSONObject heartbeatMessage = new JSONObject();
                     heartbeatMessage.put("type", "heartbeat");
                     heartbeatMessage.put("ip", peerIp);
                     heartbeatMessage.put("port", peerPort);
+
                     sendToSeed(seed, heartbeatMessage.toString());
+                    seedFailures.put(seedKey, 0); // Reset failure count on success
                 }
             } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
             }
         }
     }
+
+
+
 
 
     private static List<PeerInfo> loadSeeds() throws IOException {
@@ -267,7 +283,7 @@ public class PeerNode {
 
 
             String response = in.readLine();
-            System.out.println("DEBUG: Received response -> " + response); // Check what's received
+            System.out.println("Received response -> " + response); // Check what's received
 
             if (response == null || response.trim().isEmpty()) {
                 throw new IOException("Empty response from SeedNode");

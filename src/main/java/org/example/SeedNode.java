@@ -4,6 +4,9 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
@@ -12,10 +15,11 @@ import org.json.JSONException;
 public class SeedNode {
     private static final String CONFIG_FILE = "config.txt";
     private static final String LOG_FILE = "seed_log.txt"; // Log file for SeedNode
+    private static final int HEARTBEAT_TIMEOUT = 15000;
     private static Set<PeerNode.PeerInfo> connectedPeers = new HashSet<>();
     private static Map<String, PeerNode.PeerInfo> peerList = new HashMap<>();
     private static Map<String, Long> lastHeartbeat = new ConcurrentHashMap<>();
-    private static final long TIMEOUT = 10000; // 10 seconds timeout
+    private static final ScheduledExecutorService heartbeatChecker = Executors.newScheduledThreadPool(1);
 
 
     private static void logMessage(String message) {
@@ -28,12 +32,58 @@ public class SeedNode {
             System.err.println("Error writing to log file: " + e.getMessage());
         }
     }
+//    // Load existing peers from config.txt
+//    private static void loadSeedsFromFile() {
+//        File configFile = new File(CONFIG_FILE);
+//
+//        if (!configFile.exists()) {
+//            System.out.println("⚠️ Config file not found: " + configFile.getAbsolutePath());
+//            return;
+//        }
+//
+//        try (BufferedReader reader = new BufferedReader(new FileReader(configFile))) {
+//            String line;
+//            while ((line = reader.readLine()) != null) {
+//                line = line.trim();
+//                if (line.isEmpty()) continue;
+//
+//                String[] parts = line.split(":");
+//                if (parts.length == 2) {
+//                    String ip = parts[0].trim();
+//                    int port = Integer.parseInt(parts[1].trim());
+//
+//                    peerList.put(ip, new PeerNode.PeerInfo(ip, port));
+//                    logMessage("✅ Loaded Seed: " + ip + ":" + port);
+//                }
+//            }
+//        } catch (IOException e) {
+//            System.out.println("❌ Failed to load peers: " + e.getMessage());
+//        }
+//    }
+//
+//    // Save updated peer list to config.txt
+//    private static void savePeersToFile() {
+//        File configFile = new File(CONFIG_FILE);
+//
+//        try (PrintWriter writer = new PrintWriter(new FileWriter(configFile))) {
+//            for (PeerNode.PeerInfo peer : peerList.values()) {
+//                writer.println(peer.ip + ":" + peer.port);
+//            }
+//            logMessage("📄 Updated config.txt with new peers.");
+//        } catch (IOException e) {
+//            System.out.println("❌ Error saving peers: " + e.getMessage());
+//        }
+//    }
+
+
+
 
 
     // Load existing peers from config.txt (integrated from NetworkConfig)
     private static void loadSeedsFromFile() throws IOException {
-        try (InputStream inputStream = SeedNode.class.getClassLoader().getResourceAsStream(CONFIG_FILE);
-             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+        try (
+                InputStream inputStream = SeedNode.class.getClassLoader().getResourceAsStream(CONFIG_FILE);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
 
             if (inputStream == null) {
                 throw new FileNotFoundException("config.txt not found in resources");
@@ -67,13 +117,14 @@ public class SeedNode {
     }
 
 
-    // Save updated peer list to config.txt (integrated from NetworkConfig)
+    // Save updated peer list to config.txt
     private static void savePeersToFile() throws IOException {
         try (PrintWriter writer = new PrintWriter(new FileWriter(CONFIG_FILE))) {
             for (PeerNode.PeerInfo peer : peerList.values()) {
                 writer.println(peer.ip + ":" + peer.port);
             }
         }
+
     }
 
     // Accept connections from peers and handle their registration
@@ -82,7 +133,6 @@ public class SeedNode {
             logMessage("Seed Node listening on port " + port);
             while (true) {
                 Socket socket = serverSocket.accept();
-                logMessage("Accepted connection from " + socket.getInetAddress());
                 new Thread(() -> handlePeerRegistration(socket)).start();
             }
         } catch (IOException e) {
@@ -97,7 +147,7 @@ public class SeedNode {
 
 
             String message = in.readLine();
-            logMessage("DEBUG: Received raw message -> " + message);
+            logMessage("Received raw message -> " + message);
 
             if (message == null || message.trim().isEmpty()) {
                 logMessage("ERROR: Received empty message. Ignoring...");
@@ -109,7 +159,6 @@ public class SeedNode {
                 logMessage("ERROR: Message is not JSON! Received -> " + message);
                 return;
             }
-
 
 
             JSONObject jsonMessage = new JSONObject(message);
@@ -162,41 +211,43 @@ public class SeedNode {
             }
 
             out.println("ACK");  // Acknowledge message
-        }
-        catch (JSONException e) {
+        } catch (JSONException e) {
             logMessage("JSON error: " + e.getMessage());
             e.printStackTrace();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             logMessage("Error handling peer message: " + e.getMessage());
         }
     }
-    private static void removeDeadPeers() {
+
+    private static void checkHeartbeats() {
         long currentTime = System.currentTimeMillis();
         Iterator<Map.Entry<String, Long>> iterator = lastHeartbeat.entrySet().iterator();
+
         while (iterator.hasNext()) {
             Map.Entry<String, Long> entry = iterator.next();
-            if (currentTime - entry.getValue() > TIMEOUT) {
-                String deadPeer = entry.getKey();
+            String peerIp = entry.getKey();
+            long lastPingTime = entry.getValue();
+
+            if (currentTime - lastPingTime > HEARTBEAT_TIMEOUT) {
+                logMessage("Peer " + peerIp + " is unresponsive. Removing from peer list.");
+
+                peerList.remove(peerIp);
+                connectedPeers.removeIf(p -> p.ip.equals(peerIp));
                 iterator.remove();
-                peerList.remove(deadPeer.split(":")[0]);
-                logMessage("Removed dead peer: " + deadPeer);
             }
         }
     }
 
 
-    public static void main(String[] args) {
-        try {
-            loadSeedsFromFile();  // Load seed nodes from config.txt
+    public static void main(String[] args) throws IOException {
+        loadSeedsFromFile();  // Load seed nodes from config.txt
 
-            for (PeerNode.PeerInfo seed : peerList.values()) {
-                int port = seed.port;  // Get the port from the loaded seeds
-                new Thread(() -> startServer(port));  // Start server dynamically
-            }
-        } catch (IOException e) {
-            System.out.println("Error: " + e.getMessage());
+        for (PeerNode.PeerInfo seed : peerList.values()) {
+            int port = seed.port;  // Get the port from the loaded seeds
+            new Thread(() -> startServer(port));  // Start server dynamically
         }
+
+        heartbeatChecker.scheduleAtFixedRate(SeedNode::checkHeartbeats, 10, 10, TimeUnit.SECONDS);
     }
 
 }
