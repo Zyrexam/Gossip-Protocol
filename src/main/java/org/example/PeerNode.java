@@ -17,11 +17,13 @@ public class PeerNode {
     private static final int MESSAGE_INTERVAL = 5000; // 5 seconds
     private static final int PING_INTERVAL = 13000; // 13 seconds
     private static final int MAX_MISSED_PINGS = 3;
+    private static final int HEARTBEAT_INTERVAL = 10000; // 10 seconds
+
 
     private static String peerIp;
     private static int peerPort;
-    private static Map<String, PeerInfo> connectedPeers = new HashMap<>();
-    private static Set<Integer> messageList = new HashSet<>();
+    private static final Map<String, PeerInfo> connectedPeers = new HashMap<>();
+    private static final Set<Integer> messageList = new HashSet<>();
     private static final Random random = new Random(); // Single Random instance
 
 
@@ -55,6 +57,23 @@ public class PeerNode {
         }
     }
 
+    private static void sendHeartbeatToSeeds() {
+        while (true) {
+            try {
+                Thread.sleep(HEARTBEAT_INTERVAL);
+                List<PeerInfo> seeds = loadSeeds();
+                for (PeerInfo seed : seeds) {
+                    JSONObject heartbeatMessage = new JSONObject();
+                    heartbeatMessage.put("type", "heartbeat");
+                    heartbeatMessage.put("ip", peerIp);
+                    heartbeatMessage.put("port", peerPort);
+                    sendToSeed(seed, heartbeatMessage.toString());
+                }
+            } catch (InterruptedException | IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 
     private static List<PeerInfo> loadSeeds() throws IOException {
@@ -104,7 +123,8 @@ public class PeerNode {
     private static void registerWithSeeds() throws IOException {
         List<PeerInfo> seeds = loadSeeds();
         Collections.shuffle(seeds);
-        int count = Math.max(1, seeds.size() / 2 + 1);
+        int count = Math.floorDiv(seeds.size(), 2) + 1;
+
         for (int i = 0; i < count; i++) {
             PeerInfo seed = seeds.get(i);
             JSONObject registerMessage = new JSONObject();
@@ -204,8 +224,6 @@ public class PeerNode {
     }
 
 
-
-
     private static void connectToPeer(PeerInfo peer1, PeerInfo peer2) {
         String peerKey = peer2.ip + ":" + peer2.port;
 
@@ -247,7 +265,14 @@ public class PeerNode {
             request.put("type", "get_peers");
             out.println(request);
 
+
             String response = in.readLine();
+            System.out.println("DEBUG: Received response -> " + response); // Check what's received
+
+            if (response == null || response.trim().isEmpty()) {
+                throw new IOException("Empty response from SeedNode");
+            }
+
             JSONObject jsonResponse = new JSONObject(response);
 
             if (jsonResponse.getString("status").equals("success")) {
@@ -404,20 +429,42 @@ public class PeerNode {
             logMessage("Sent dead node message to seed " + seed.ip + ":" + seed.port + ": " + deadNodeMessage);
         }
     }
+
+
     private static int findAvailablePort() {
-        int port = 0;
-        for (int i = 0; i < 10; i++) { // Try a few times to find an available port
-            port = new Random().nextInt(1000) + 5001;
+        for (int i = 0; i < 10; i++) {
+            int port = random.nextInt(1000) + 5001; // Use global random instance
             try (ServerSocket ss = new ServerSocket(port)) {
-                // Successfully created a server socket, so the port is available
-                return port;
+                return port; // Successfully found an available port
             } catch (IOException e) {
-                // Port is in use, try again
                 System.out.println("Port " + port + " is in use. Trying another...");
             }
         }
-        System.err.println("Failed to find an available port after several attempts.");
-        return -1; // Indicate failure
+        System.err.println("Failed to find an available port.");
+        return -1;
+    }
+
+
+    private static boolean isGraphConnected() {
+        if (connectedPeers.isEmpty()) return false;
+
+        Set<String> visited = new HashSet<>();
+        Queue<String> queue = new LinkedList<>();
+        String start = connectedPeers.keySet().iterator().next();
+        queue.add(start);
+        visited.add(start);
+
+        while (!queue.isEmpty()) {
+            String peerKey = queue.poll();
+            for (PeerInfo peer : connectedPeers.values()) {
+                String key = peer.ip + ":" + peer.port;
+                if (!visited.contains(key)) {
+                    visited.add(key);
+                    queue.add(key);
+                }
+            }
+        }
+        return visited.size() == connectedPeers.size();
     }
 
     public static void main(String[] args) {
@@ -434,6 +481,10 @@ public class PeerNode {
             new Thread(PeerNode::gossipMessage).start();
             new Thread(PeerNode::receiveMessages).start();
             new Thread(PeerNode::pingPeers).start();
+            new Thread(PeerNode::sendHeartbeatToSeeds).start();
+
+
+            isGraphConnected();
         } catch (Exception e) {
             e.printStackTrace();
         }

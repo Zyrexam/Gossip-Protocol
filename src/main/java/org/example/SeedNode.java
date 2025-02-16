@@ -3,6 +3,8 @@ package org.example;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,6 +14,9 @@ public class SeedNode {
     private static final String LOG_FILE = "seed_log.txt"; // Log file for SeedNode
     private static Set<PeerNode.PeerInfo> connectedPeers = new HashSet<>();
     private static Map<String, PeerNode.PeerInfo> peerList = new HashMap<>();
+    private static Map<String, Long> lastHeartbeat = new ConcurrentHashMap<>();
+    private static final long TIMEOUT = 10000; // 10 seconds timeout
+
 
     private static void logMessage(String message) {
         try (FileWriter fw = new FileWriter(LOG_FILE, true); // Append mode
@@ -90,10 +95,22 @@ public class SeedNode {
         try (BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 
-            String message = in.readLine();
-            logMessage("Received message: " + message);
 
-            if (message == null) return;
+            String message = in.readLine();
+            logMessage("DEBUG: Received raw message -> " + message);
+
+            if (message == null || message.trim().isEmpty()) {
+                logMessage("ERROR: Received empty message. Ignoring...");
+                return;
+            }
+
+// Check if the message starts with '{' (valid JSON object)
+            if (!message.trim().startsWith("{")) {
+                logMessage("ERROR: Message is not JSON! Received -> " + message);
+                return;
+            }
+
+
 
             JSONObject jsonMessage = new JSONObject(message);
             String type = jsonMessage.getString("type");
@@ -129,8 +146,8 @@ public class SeedNode {
                 }
 
                 response.put("peers", peersArray);
-                out.println(response.toString());  // Send response
-                logMessage("Sent peer list: " + response.toString());
+                out.println(response);  // Send response
+                logMessage("Sent peer list: " + response);
 
             } else if (type.equals("dead_node")) {
                 // Handle dead node removal
@@ -154,7 +171,20 @@ public class SeedNode {
             logMessage("Error handling peer message: " + e.getMessage());
         }
     }
-    
+    private static void removeDeadPeers() {
+        long currentTime = System.currentTimeMillis();
+        Iterator<Map.Entry<String, Long>> iterator = lastHeartbeat.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, Long> entry = iterator.next();
+            if (currentTime - entry.getValue() > TIMEOUT) {
+                String deadPeer = entry.getKey();
+                iterator.remove();
+                peerList.remove(deadPeer.split(":")[0]);
+                logMessage("Removed dead peer: " + deadPeer);
+            }
+        }
+    }
+
 
     public static void main(String[] args) {
         try {

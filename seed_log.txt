@@ -1,96 +1,405 @@
-Loaded peer: 127.0.0.1:5001
-Loaded peer: 127.0.0.1:5002
-Loaded peer: 127.0.0.1:5003
-Received message: {"port":5526,"ip":"10.23.24.226","type":"register"}
-Registered peer: 10.23.24.226:5526
-Received message: {"type":"get_peers"}
-Sent peer list: {"peers":[{"port":5526,"ip":"10.23.24.226"},{"port":5003,"ip":"127.0.0.1"}],"status":"success"}
-Loaded peer: 127.0.0.1:5001
-Loaded peer: 127.0.0.1:5002
-Loaded peer: 127.0.0.1:5003
-Received message: {"port":5657,"ip":"10.23.24.226","type":"register"}
-Registered peer: 10.23.24.226:5657
-Received message: {"type":"get_peers"}
-Sent peer list: {"peers":[{"port":5657,"ip":"10.23.24.226"},{"port":5003,"ip":"127.0.0.1"}],"status":"success"}
-Loaded peer: 127.0.0.1:5001
-Loaded peer: 127.0.0.1:5002
-Loaded peer: 127.0.0.1:5003
-Loaded peer: 127.0.0.1:5001
-Loaded peer: 127.0.0.1:5002
-Loaded peer: 127.0.0.1:5003
-Loaded peer: 127.0.0.1:5001
-Loaded peer: 127.0.0.1:5002
-Loaded peer: 127.0.0.1:5003
-Error starting server on port 5002: Address already in use: bind
-Error starting server on port 5001: Address already in use: bind
-Error starting server on port 5003: Address already in use: bind
-Loaded peer: 127.0.0.1:5001
-Loaded peer: 127.0.0.1:5002
-Loaded peer: 127.0.0.1:5003
-Error starting server on port 5003: Address already in use: bind
-Error starting server on port 5002: Address already in use: bind
-Loaded peer: 127.0.0.1:5001
-Loaded peer: 127.0.0.1:5002
-Loaded peer: 127.0.0.1:5003
-Error starting server on port 5003: Address already in use: bind
-Error starting server on port 5002: Address already in use: bind
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5074,"ip":"10.23.24.226","type":"heartbeat"}
 Loaded Seeds: 127.0.0.1:5001
 Loaded Seeds: 127.0.0.1:5002
 Loaded Seeds: 127.0.0.1:5003
-Error starting server on port 5003: Address already in use: bind
-Error starting server on port 5002: Address already in use: bind
-Loaded Seeds: 127.0.0.1:5001
-Loaded Seeds: 127.0.0.1:5002
-Loaded Seeds: 127.0.0.1:5003
-Error starting server on port 5002: Address already in use: bind
-Error starting server on port 5003: Address already in use: bind
-Loaded Seeds: 127.0.0.1:5001
-Loaded Seeds: 127.0.0.1:5002
-Loaded Seeds: 127.0.0.1:5003
-Loaded Seeds: 127.0.0.1:5001
-Loaded Seeds: 127.0.0.1:5002
-Loaded Seeds: 127.0.0.1:5003
-Loaded Seeds: 127.0.0.1:5001
-Loaded Seeds: 127.0.0.1:5002
-Loaded Seeds: 127.0.0.1:5003
-Loaded Seeds: 127.0.0.1:5001
-Loaded Seeds: 127.0.0.1:5002
-Loaded Seeds: 127.0.0.1:5003
-Seed Node listening on port 5001
-Seed Node listening on port 5003
 Seed Node listening on port 5002
-Loaded Seeds: 127.0.0.1:5001
-Loaded Seeds: 127.0.0.1:5002
-Loaded Seeds: 127.0.0.1:5003
-Seed Node listening on port 5001
-Seed Node listening on port 5003
-Seed Node listening on port 5002
-Loaded Seeds: 127.0.0.1:5001
-Loaded Seeds: 127.0.0.1:5002
-Loaded Seeds: 127.0.0.1:5003
-Seed Node listening on port 5002
 Seed Node listening on port 5003
 Seed Node listening on port 5001
-Loaded Seeds: 127.0.0.1:5001
-Loaded Seeds: 127.0.0.1:5002
-Loaded Seeds: 127.0.0.1:5003
-Seed Node listening on port 5003
-Seed Node listening on port 5001
-Seed Node listening on port 5002
 Accepted connection from /127.0.0.1
-Received message: {"port":5326,"ip":"10.23.24.226","type":"register"}
-Registered peer: 10.23.24.226:5326
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"register"}
+Registered peer: 10.23.24.226:5216
 Accepted connection from /127.0.0.1
-Received message: {"port":5326,"ip":"10.23.24.226","type":"register"}
-Registered peer: 10.23.24.226:5326
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"register"}
+Registered peer: 10.23.24.226:5216
 Accepted connection from /127.0.0.1
-Received message: {"type":"get_peers"}
-Sent peer list: {"peers":[{"port":5326,"ip":"10.23.24.226"},{"port":5003,"ip":"127.0.0.1"}],"status":"success"}
+DEBUG: Received raw message -> {"type":"get_peers"}
+Sent peer list: {"peers":[{"port":5216,"ip":"10.23.24.226"},{"port":5003,"ip":"127.0.0.1"}],"status":"success"}
 Accepted connection from /127.0.0.1
-Received message: {"type":"get_peers"}
-Sent peer list: {"peers":[{"port":5326,"ip":"10.23.24.226"},{"port":5003,"ip":"127.0.0.1"}],"status":"success"}
+DEBUG: Received raw message -> {"type":"get_peers"}
+Sent peer list: {"peers":[{"port":5216,"ip":"10.23.24.226"},{"port":5003,"ip":"127.0.0.1"}],"status":"success"}
 Accepted connection from /127.0.0.1
-Received message: {"type":"get_peers"}
-Sent peer list: {"peers":[{"port":5326,"ip":"10.23.24.226"},{"port":5003,"ip":"127.0.0.1"}],"status":"success"}
+DEBUG: Received raw message -> {"type":"get_peers"}
+Sent peer list: {"peers":[{"port":5216,"ip":"10.23.24.226"},{"port":5003,"ip":"127.0.0.1"}],"status":"success"}
 Accepted connection from /127.0.0.1
-Received message: connect:10.23.24.226:5326
+DEBUG: Received raw message -> connect:10.23.24.226:5216
+ERROR: Message is not JSON! Received -> connect:10.23.24.226:5216
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> connect:10.23.24.226:5216
+ERROR: Message is not JSON! Received -> connect:10.23.24.226:5216
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> connect:10.23.24.226:5216
+ERROR: Message is not JSON! Received -> connect:10.23.24.226:5216
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> connect:10.23.24.226:5216
+ERROR: Message is not JSON! Received -> connect:10.23.24.226:5216
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> connect:10.23.24.226:5216
+ERROR: Message is not JSON! Received -> connect:10.23.24.226:5216
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> connect:10.23.24.226:5216
+ERROR: Message is not JSON! Received -> connect:10.23.24.226:5216
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> connect:10.23.24.226:5216
+ERROR: Message is not JSON! Received -> connect:10.23.24.226:5216
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> connect:10.23.24.226:5216
+ERROR: Message is not JSON! Received -> connect:10.23.24.226:5216
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> connect:10.23.24.226:5216
+ERROR: Message is not JSON! Received -> connect:10.23.24.226:5216
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> connect:10.23.24.226:5216
+ERROR: Message is not JSON! Received -> connect:10.23.24.226:5216
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> connect:10.23.24.226:5216
+ERROR: Message is not JSON! Received -> connect:10.23.24.226:5216
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> connect:10.23.24.226:5216
+ERROR: Message is not JSON! Received -> connect:10.23.24.226:5216
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
+Accepted connection from /127.0.0.1
+DEBUG: Received raw message -> {"port":5216,"ip":"10.23.24.226","type":"heartbeat"}
