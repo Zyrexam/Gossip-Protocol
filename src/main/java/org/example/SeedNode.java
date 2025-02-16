@@ -8,7 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 public class SeedNode {
-    private static final int SEED_PORT = 5000;
     private static final String CONFIG_FILE = "config.txt";
     private static final String LOG_FILE = "seed_log.txt"; // Log file for SeedNode
     private static Set<PeerNode.PeerInfo> connectedPeers = new HashSet<>();
@@ -27,7 +26,7 @@ public class SeedNode {
 
 
     // Load existing peers from config.txt (integrated from NetworkConfig)
-    private static void loadPeersFromFile() throws IOException {
+    private static void loadSeedsFromFile() throws IOException {
         try (InputStream inputStream = SeedNode.class.getClassLoader().getResourceAsStream(CONFIG_FILE);
              BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
 
@@ -39,6 +38,7 @@ public class SeedNode {
             while ((line = reader.readLine()) != null) {
                 line = line.trim();
                 if (line.isEmpty()) continue;
+
                 String[] parts = line.split(":");
                 if (parts.length == 2) {
                     String ip = parts[0].trim();
@@ -46,7 +46,11 @@ public class SeedNode {
                     try {
                         int port = Integer.parseInt(portStr);
                         peerList.put(ip, new PeerNode.PeerInfo(ip, port));
-                        logMessage("Loaded peer: " + ip + ":" + port);
+                        logMessage("Loaded Seeds: " + ip + ":" + port);
+
+                        // 🔥 Start the server for this seed immediately
+                        new Thread(() -> startServer(port)).start();
+
                     } catch (NumberFormatException e) {
                         logMessage("Error parsing port number: " + portStr);
                     }
@@ -68,45 +72,54 @@ public class SeedNode {
     }
 
     // Accept connections from peers and handle their registration
-    private static void startServer() {
-        try (ServerSocket serverSocket = new ServerSocket(SEED_PORT)) {
-            System.out.println("Seed Node listening on port " + SEED_PORT);
+    private static void startServer(int port) {
+        try (ServerSocket serverSocket = new ServerSocket(port)) {
+            logMessage("Seed Node listening on port " + port);
             while (true) {
                 Socket socket = serverSocket.accept();
+                logMessage("Accepted connection from " + socket.getInetAddress());
                 new Thread(() -> handlePeerRegistration(socket)).start();
             }
         } catch (IOException e) {
-            System.out.println("Error starting server: " + e.getMessage());
+            logMessage("Error starting server on port " + port + ": " + e.getMessage());
         }
     }
+
 
     private static void handlePeerRegistration(Socket socket) {
         try (BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
+
             String message = in.readLine();
-            logMessage("Received message: " + message);  // Add this line
+            logMessage("Received message: " + message);
+
             if (message == null) return;
 
             JSONObject jsonMessage = new JSONObject(message);
             String type = jsonMessage.getString("type");
 
             if (type.equals("register")) {
+                // Register new peer
                 String peerIp = jsonMessage.getString("ip");
                 int peerPort = jsonMessage.getInt("port");
+
                 PeerNode.PeerInfo peerInfo = new PeerNode.PeerInfo(peerIp, peerPort);
                 peerList.put(peerIp, peerInfo);
                 connectedPeers.add(peerInfo);
+
                 JSONObject response = new JSONObject();
                 response.put("status", "success");
                 response.put("message", "Registered successfully: " + peerIp + ":" + peerPort);
-                out.println(response.toString());
+
+                out.println(response.toString());  // Send response
+                logMessage("Registered peer: " + peerIp + ":" + peerPort);
                 savePeersToFile();
-                logMessage("Registered peer: " + peerIp + ":" + peerPort);  // Add this line
 
             } else if (type.equals("get_peers")) {
-                // Send list of peers to requesting node
+                // Send list of connected peers
                 JSONObject response = new JSONObject();
                 response.put("status", "success");
+
                 JSONArray peersArray = new JSONArray();
                 for (PeerNode.PeerInfo peer : peerList.values()) {
                     JSONObject peerJson = new JSONObject();
@@ -114,46 +127,46 @@ public class SeedNode {
                     peerJson.put("port", peer.port);
                     peersArray.put(peerJson);
                 }
+
                 response.put("peers", peersArray);
-                out.println(response.toString());
-                logMessage("Sent peer list: " + response.toString());  // Add this line
-            } else if (type.startsWith("Dead Node:")) {
-                // Handle dead node notification
-                String[] parts = message.split(":");
-                if (parts.length >= 3) {
-                    String deadIp = parts[1];
-                    int deadPort = Integer.parseInt(parts[2]);
-                    peerList.remove(deadIp);
-                    connectedPeers.removeIf(p -> p.ip.equals(deadIp) && p.port == deadPort);
-                    savePeersToFile();
-                    System.out.println("Removed dead node: " + deadIp + ":" + deadPort);
-                    logMessage("Removed dead node: " + deadIp + ":" + deadPort);  // Add this line
-                }
+                out.println(response.toString());  // Send response
+                logMessage("Sent peer list: " + response.toString());
+
+            } else if (type.equals("dead_node")) {
+                // Handle dead node removal
+                String deadIp = jsonMessage.getString("ip");
+                int deadPort = jsonMessage.getInt("port");
+
+                peerList.remove(deadIp);
+                connectedPeers.removeIf(p -> p.ip.equals(deadIp) && p.port == deadPort);
+
+                savePeersToFile();
+                logMessage("Removed dead node: " + deadIp + ":" + deadPort);
             }
-        }  catch (JSONException e) {
-            System.err.println("JSON error: " + e.getMessage());
+
+            out.println("ACK");  // Acknowledge message
+        }
+        catch (JSONException e) {
+            logMessage("JSON error: " + e.getMessage());
             e.printStackTrace();
         }
         catch (IOException e) {
-            System.out.println("Error handling peer message: " + e.getMessage());
+            logMessage("Error handling peer message: " + e.getMessage());
         }
     }
-
-    // Retrieve a list of peers to send to new peer nodes
-    private static List<String> getPeers() {
-        List<String> peers = new ArrayList<>();
-        for (PeerNode.PeerInfo peer : peerList.values()) {
-            peers.add(peer.ip + ":" + peer.port);
-        }
-        return peers;
-    }
+    
 
     public static void main(String[] args) {
         try {
-            loadPeersFromFile();
-            startServer();
+            loadSeedsFromFile();  // Load seed nodes from config.txt
+
+            for (PeerNode.PeerInfo seed : peerList.values()) {
+                int port = seed.port;  // Get the port from the loaded seeds
+                new Thread(() -> startServer(port));  // Start server dynamically
+            }
         } catch (IOException e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
+
 }

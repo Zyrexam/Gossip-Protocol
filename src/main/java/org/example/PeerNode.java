@@ -5,10 +5,13 @@ import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
 
 public class PeerNode {
+
+
     private static final String CONFIG_FILE = "config.txt";
     private static final String LOG_FILE = "peer_log.txt";
     private static final int MESSAGE_INTERVAL = 5000; // 5 seconds
@@ -51,7 +54,6 @@ public class PeerNode {
             return Objects.hash(ip, port);
         }
     }
-
 
 
 
@@ -203,17 +205,37 @@ public class PeerNode {
 
 
 
+
     private static void connectToPeer(PeerInfo peer1, PeerInfo peer2) {
+        String peerKey = peer2.ip + ":" + peer2.port;
+
+        // Avoid reconnecting to the same peer
+        if (connectedPeers.containsKey(peerKey)) {
+            System.out.println("Already connected to peer: " + peerKey);
+            return;
+        }
+
         try (Socket socket = new Socket(peer2.ip, peer2.port);
-             PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
+             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+
             out.println("connect:" + peer1.ip + ":" + peer1.port);
-            connectedPeers.put(peer2.ip, peer2); //consider only adding to connected peers if connection is successful.
-            System.out.println("Connected to peer: " + peer2.ip + ":" + peer2.port); // Moved inside the try block
+
+            // Expect a response from the peer
+            String response = in.readLine();
+            if ("ack".equalsIgnoreCase(response)) {
+                connectedPeers.put(peerKey, peer2);
+                logMessage("Successfully connected to peer: " + peerKey);
+            } else {
+                logMessage("Peer " + peerKey + " did not acknowledge connection.");
+            }
 
         } catch (IOException e) {
-            System.out.println("Failed to connect to peer: " + peer2.ip + ":" + peer2.port);
+            System.out.println("Failed to connect to peer: " + peerKey);
+            logMessage("Failed to connect to peer: " + peerKey);
         }
     }
+
 
     private static List<PeerInfo> getPeersFromSeed(PeerInfo seed) throws IOException {
         List<PeerInfo> peerList = new ArrayList<>();
@@ -223,13 +245,13 @@ public class PeerNode {
 
             JSONObject request = new JSONObject();
             request.put("type", "get_peers");
-            out.println(request.toString());
+            out.println(request);
 
             String response = in.readLine();
             JSONObject jsonResponse = new JSONObject(response);
 
             if (jsonResponse.getString("status").equals("success")) {
-                org.json.JSONArray peers = jsonResponse.getJSONArray("peers");
+                JSONArray peers = jsonResponse.getJSONArray("peers");
                 for (int i = 0; i < peers.length(); i++) {
                     JSONObject peerJson = peers.getJSONObject(i);
                     String ip = peerJson.getString("ip");
